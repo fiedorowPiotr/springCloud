@@ -1,0 +1,68 @@
+spring:
+  data:
+    jpa:
+      repositories:
+        bootstrap_mode: default
+  application:
+    name: @project.name@
+    description: @project.description@
+    licence:
+    version: @project.version@
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        temp:
+          use_jdbc_metadata_defaults: false
+      javax:
+        persistence:
+          lock:
+            timeout: 0
+  datasource:
+    url: ${dbsource-api.url}${dbsource-api.dbname}
+    username: ${dbsource-api.username}
+    password: ${dbsource-api.password}
+    driverClassName: ${dbsource-api.driverClassName}
+
+server:
+  port: ${PORT:8670}
+
+dbsource-api:
+  url: ${TEST_URL:}
+  dbname: ${TEST_DBNAME:}
+  driverClassName: ${TEST_DRIVER:}
+  username: ${TEST_USER:}
+  password: ${TEST_PASSWORD:}
+
+
+feign:
+  externalService:
+    service1:
+      url: ${conductor.server.url}:${conductor.server.port}/api/workflow/Service1
+    service2:
+      url: ${conductor.server.url}:${conductor.server.port}/api/workflow/Service2
+      retryer:
+        backoff: 3000
+        maxAttempts: 4
+    service3:
+      url: ${conductor.server.url}:${conductor.server.port}/api/workflow/Service3
+      retryer:
+        backoff: 4000
+        maxAttempts: 5
+info:
+  adapter:
+    app:
+      name: @project.name@
+      description: @project.description@
+    build:
+      artifact: @project.artifactId@
+      groupId: @project.groupId@
+      version: @project.version@
+      java:
+        version: @java.version@
+      buildTime: @maven.build.timestamp@
+
+conductor:
+  server:
+    port: ${CONDUCTOR_SERVER_PORT:30004}
+    url:  ${CONDUCTOR_SERVER_URL:http://localhost}
